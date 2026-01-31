@@ -1,0 +1,101 @@
+{% load static %}
+
+<div class="job_tracker_container">
+    <div class="job_tracker_top">
+        <div class="job_page_headline">
+            <h1>Job Tracker</h1>
+            <p>Manage your job opportunities and wishlist.</p>
+        </div>
+        <button class="add_job_btn" id="add_job_btnn">+ Add Job</button>
+    </div>
+    <!-- Model Overlay Drop in window-->
+    <div class="job_model_overlay" id="add_job_plate">
+        <div class="job_model">
+            <div class="job_model_header">
+                <h2>Add new job Application</h2>
+                <button class="close_btn" id="closejobModel">&times;</button>
+            </div>
+            <p  class="job_model_subtitle">Track a new job opportunity. You can add notes and apply later.</p>
+            <form method="POST" id="jobForm">
+                {% csrf_token %}
+                <div class="job">
+                    <div class="job_form_row">
+                        <div class="job_form_group">
+                            <label for="companyName">Company</label>
+                            <input type="text" name="companyName" placeholder="e.g Google" required/>
+                        </div>
+                        <div class="job_form_group">
+                            <label for="roleName">Role</label>
+                            <input type="text" name="roleName" placeholder="e.g Backend Develper"/>
+                        </div>
+                    </div>
+                    <div class="job_form_row">
+                        <div class="job_form_group">
+                            <label for="locationName">Location</label>
+                            <input type="text" name="locationName" placeholder="e.g Remote,Chennai" required/>
+                        </div>
+                        <div class="job_form_group">
+                            <label for="jobType">Type</label>
+                            <select name="jobType" id="type_list">
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Internship</option>
+                                <option>Contract</option>
+                                <option>Freelance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="job_form_row">
+                        <div class="job_form_group">
+                            <label for="sourceName">Source</label>
+                            <input type="text" name="sourceName" placeholder="e.g LinkedIn " required/>
+                        </div>
+                        <div class="job_form_group">
+                            <label for="salary">Salary(Optional)</label>
+                            <input type="text" name="salary" placeholder="e.g Backend Develper"/>
+                        </div>
+                    </div>
+                </div>
+                <button class="job_save_btn" type="submit">Save Job</button>
+            </form>
+        </div>
+    </div>
+    <div class="job_application_box" id="job_application_box">
+        {% if jobs %}
+            {% for job in jobs %}
+                <div class="job_card" data-job-id="{{job.id}}">
+                    <div class="card_top_row">
+                        <img src="{% static 'images/buildings.png' %}" alt="">
+                        <button class="job_delete_btn">&times;</button>
+                    </div>
+                    <div class="card_content">
+                        <h2 class="job_title">{{job.roleName}}</h2>
+                        <h3 class="company">{{job.companyName}}</h3>
+                        <div id="others">
+                            <h4><i class="fa-solid fa-location-dot"></i> {{job.location}}</h4>
+                            <h4><i class="fa-solid fa-briefcase"></i> {{job.jobType}}</h4>
+                            {% if job.salary %}
+                                <h4><i class="fa-solid fa-dollar-sign"></i> {{job.salary}}</h4>
+                            {% endif %}
+                        </div>
+                        <div id="card_last_row">
+                            <h4><i class="fa-solid fa-globe"></i> {{job.sourceName}}</h4>|
+                            <h4><i class="fa-solid fa-calendar"></i> {{job.created_at}}</h4>
+                        </div>
+                    </div>
+                    <hr>
+                    <button class="create_application_btn" data-id="{{job.id}}">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Create Application
+                    </button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty_state">
+                <img src="{% static 'images/empty_page_img.png' %}" alt="No jobs">
+                <h2>No jobs added yet</h2>
+                <p>Start by adding job opportunities you’re interested in.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>

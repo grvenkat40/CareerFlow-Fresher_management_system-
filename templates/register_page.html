@@ -1,0 +1,58 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block until_head %}
+
+{% if messages %}
+    <div id="messages">
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="register-form-section">
+    <div>
+        <img src="{% static 'images/logo.png' %}" alt="">
+        <span>CareerFlow</span>
+    </div>
+    <form method="post" action="{% url 'register_page' %}">
+        {% csrf_token %}
+        <h2>Create Account</h2>
+        <p>Start your journey with CareerFlow today.</p>
+        
+        <div class="input-row">
+            <div class="input-group">
+                <label for="first_name">First name</label>
+                <input type="text" id="first_name" name="firstname" placeholder="Alex" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="last_name">Last name</label>
+                <input type="text" id="last_name" name="lastname" placeholder="Student" required>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="alex@university.edu" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="register-btn">Create Account</button>
+        
+        <p id="nav_login">Already have an account? <a href="{% url 'login_page' %}">Login here</a></p>
+        
+        <p class="terms-text">
+            By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        </p>
+    </form>
+</div>
+
+{% endblock %}

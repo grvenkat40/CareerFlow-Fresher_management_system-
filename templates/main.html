@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Career Tracker Dashboard</title>
+</head>
+<body>
+    {% if messages %}
+        <div id="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="main_container">
+        <aside class="sidebar">
+            <div class="CareerFlow_logo">
+                <img src="{% static 'images/logo.png' %}" alt="logo">
+                <span>CareerFlow</span>
+                <hr>
+            </div>
+            <h3>Menu</h3>
+            <nav class="nav_menu">
+                <a href="#" class="nav_item" id="dashboard-link" data-url="{% url 'dashboard_page' user.slug %}"> Dashboard</a>
+                <a href="#" class="nav_item" id="skill-link" data-url="{% url 'skill_page' user.slug %}"> Skill Vault</a>
+                <a href="#" class="nav_item" id="jobTracker-link" data-url="{% url 'job_tracker_page' user.slug %}"> Job Tracker</a>
+                <a href="#" class="nav_item" id="application-link" data-url="{% url 'applicaton_tracker_page' user.slug %}">Application Tracker</a>
+            </nav>
+            <div class="buttom_items">
+                    <hr>
+                    <a href="#" class="btm_nav_profile"> <span id="profile_img">{{user.first_name| slice:":1"}} </span>Profile</a>
+                    <a href="{% url 'logout' %}" class="btm_nav_logout"> <img src="{% static 'images/logout.png' %}" alt=""> <span>Logout</span></a>
+                </div>
+        </aside>
+        <main class="content_area">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script>window.EMPTY_JOB_IMG = "{% static 'images/empty_jobs.png' %}";</script>
+</body>
+</html>

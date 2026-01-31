@@ -1,0 +1,46 @@
+
+<h2>{{ job.roleName }}</h2>
+<h3>{{ job.companyName }}</h3>
+
+<div class="badges">
+    <span>{{ job.location }}</span>
+    <span>{{ job.jobType }}</span>
+    <span>{{ job.status }}</span>
+</div>
+
+<div class="actions">
+    {% if job.status != "Accepted" and job.status != "Rejected" %}
+        <button class="advance_btn"
+                data-id="{{ job.id }}">
+            Advance Status →
+        </button>
+
+        <button class="reject_btn"
+                data-id="{{ job.id }}">
+            Rejected    
+        </button>
+    {% endif %}
+</div>
+
+<hr>
+
+<h4>Notes & Activity</h4>
+
+<div class="notes_box">
+    {% for note in job.notes.all %}
+        <div class="note">
+            <p>{{ note.text }}</p>
+            <small>{{ note.created_at }}</small>
+        </div>
+    {% empty %}
+        <p>No notes yet</p>
+    {% endfor %}
+</div>
+
+<textarea id="noteText"
+          placeholder="Add a note about an interview, contact, or thought..."></textarea>
+
+<button id="addNoteBtn"
+        data-id="{{ job.id }}">
+    Add Note
+</button>

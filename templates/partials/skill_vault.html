@@ -1,0 +1,54 @@
+{% load static %}
+
+    <div class="skill_container">
+        <div class="head_line">
+            <div class="vault_header">
+                <h1>Skill Vault</h1>
+                <p>Track and improve your professional capabilities.</p>
+            </div>
+            <button class="add_skill_btn" id="add_btn">+ Add skills</button>
+        </div>
+        <!-- Model Overlay Drop in window-->
+        <div class="model_overlay" id="skillmodel">
+            <div id="model">
+                <div class="model_header">
+                    <h2>Add new skill</h2>
+                    <button class="close_btn" id="closeskillModel">&times;</button>
+                </div>
+                <p class="modal_subtitle">What you know & what you are learning?</p>
+                <form method="POST" id="skillForm">
+                    {% csrf_token %}
+                    <div class="form_group">
+                        <label for="skillName">Skill Name</label>
+                        <input type="text" name="skillName" placeholder="e.g. React, Python, Public Speaking" required/>
+                    </div>
+                    <div class="form_group">
+                        <label for="proficiency">Proficiency</label>
+                        <select name="proficiency" id="lvl_list">
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit_btn">Add to Vault</button>
+                </form>
+            </div>
+         </div>
+        <div id="skillsBox">
+            {% for skill in skills %}
+                <div class="skill-card" data-skill-id="{{ skill.id }}">
+                    <button class="skill_delete_btn">&times;</button>
+                    <div>
+                        <img src="{% static 'images/skill.png' %}" id="skill_logo" alt="skill">
+                        <span class="badge">{{ skill.skill_level }}</span>
+                    </div>
+                    <h3>{{ skill.skill_name }}</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {% if skill.skill_level == 'Advanced' %}80%{% elif skill.skill_level == 'Intermediate' %}50%{% else %}30%{% endif %};"></div>
+                    </div>
+                    <p>Last practiced: {{ skill.last_practiced }}</p>
+                    <a href="https://www.w3schools.com/" target="_blank" rel="noopener noreferrer">Want to practice?</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>

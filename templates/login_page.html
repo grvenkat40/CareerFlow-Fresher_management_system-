@@ -1,0 +1,58 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block until_head %}
+
+{% if messages %}
+    <div id="messages">
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<main class="login_container">
+    <div class="hero-content">
+        <div class="logo-wrapper">
+            <img src="{% static 'images/logo.png' %}" alt="Icon" class="logo-icon">
+            <span class="logo-text">CareerFlow</span>
+        </div>
+
+        <h1>Launch your career <br> with confidence.</h1>
+        <p class="hero-description">
+            Track your job applications, manage your skills, and organize 
+            your interview preparation in one systematic platform designed 
+            for students and graduates.
+        </p>
+
+        <ul class="feature-list">
+            <li><i class="check-icon"></i> Track unlimited job applications</li>
+            <li><i class="check-icon"></i> Visualize your progress with analytics</li>
+            <li><i class="check-icon"></i> Manage skill development goals</li>
+        </ul>
+    </div>
+
+    <div class="login-form-section">
+        <form method="post" action="{% url 'login_page' %}">
+            {% csrf_token %}
+            <h2>Welcome Back</h2>
+            <p>Please enter your details to continue.</p>
+            
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="email" id="username" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="login-btn" id="login_btn">Sign In</button>
+            <p id="nav_register">Don't have an account? <a href="{% url 'register_page' %}">Sign Up here</a></p>
+        </form>
+    </div>
+</main>
+    
+{% endblock %}

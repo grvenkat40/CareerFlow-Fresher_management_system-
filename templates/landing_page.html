@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>CareerFlow - Student/Fresher Career Mgmt System</title>
+</head>
+<body>
+{% block until_head %}
+    <header class="land_page_header">
+        <div class="header_container">
+            <h1>CareerFlow</h1>
+            <div class="navs">
+                <a href="{% url 'register_page' %}">Sign Up</a>
+                <a href="{% url 'login_page' %}">Get Started</a>
+            </div>
+        </div>
+    </header>
+    <section class="landing_section">
+        <div class="landing_content">
+            <div class="first_txt_view">
+                <h4>For Students & Graduates</h4>
+                <h1>Master your <span style="color: #1888ff;">career</span> <br> <span style="color:#1385ff;">journey</span> from day one.</h1>
+                <p>The all-in-one workspace to track applications, <br>manage skill development, and organize your job <br> search with academic precision.</p>
+                <a href="{% url 'login_page' %}">Start Tracking</a>
+            </div>
+            <div class="first_img_view">
+                <img src="{% static 'images/landing_side_image.png' %}" alt="">
+            </div>
+        </div>
+    </section>
+    <div class="about_site">
+        <h2>Everything you need to get hired</h2>
+        <p>Stop using messy spreadsheets. CareerFlow gives you a structured,<br> professional environment to manage your future.</p>
+    </div>
+    <div class="site_features">
+        <div class="feature">
+            <img src="{% static 'images/dashboard.png' %}" alt="dashboard">
+            <h3>Centralized Dashboard</h3>
+            <p>Get a bird's eye view of your entire job search pipeline. Track status changes, deadlines, and daily progress in one place.</p>
+        </div>
+        <div class="feature">
+            <img src="{% static 'images/tracking.png' %}" alt="tracking">
+            <h3>Application Tracking</h3>
+            <p>Move applications through stages from  'Applied' to 'Offer'. Add notes for every interview round and never forget a detail.</p>
+        </div>
+        <div class="feature">
+            <img src="{% static 'images/solution.png' %}" alt="solution">
+            <h3>Skill Vault</h3>
+            <p>Map your technical and soft skills. Track proficiency levels and log practice sessions to ensure you're interview-ready.</p>
+        </div>
+    </div>
+    <div class="triger_user">
+        <h1>Ready to launch your career?</h1>
+        <a href="{% url 'register_page' %}">Create Free Account</a>
+    </div>
+
+{% endblock %}
+
+    <footer class="site-footer">
+    <div class="footer-container">
+        
+        <div class="footer-top">
+            
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">
+                    <i class="fa-solid fa-briefcase"></i> <span>CareerFlow</span>
+                </a>
+                <p class="footer-tagline">
+                    Empowering the next generation of <br> professionals with tools for success.
+                </p>
+            </div>
+
+            <div class="footer-nav">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">For Universities</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="copyright">&copy; 2026 CareerFlow Inc. All rights reserved.</p>
+            <ul class="legal-links">
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Security</a></li>
+            </ul>
+        </div>
+
+    </div>
+</footer>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/animations.js' %}"></script>
+
+</body>
+</html>

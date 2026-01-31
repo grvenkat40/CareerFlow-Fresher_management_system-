@@ -1,0 +1,15 @@
+{% if jobs %}
+    {% for job in jobs %}
+        <div class="activity_items">
+            <div class="activity_info">
+                <strong>{{job.roleName}} at {{job.companyName}}</strong>
+                <div id="info_status">
+                    <p>Status: <span>{{ job.status }}</span></p>
+                    <p class="activity-date">{{ job.created_at|date:"M d, Y" }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No recent applications</p>
+{% endif %}

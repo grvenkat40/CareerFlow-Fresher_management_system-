@@ -1,0 +1,100 @@
+{% load static %}
+
+<div class="application_tracker_container">
+    <div class="application_page_headline">
+        <h1>Applications</h1>
+        <p>Manage your application pipeline.</p>
+    </div>
+    <div class="application_board">
+        <!-- Applied -->
+        <div class="status_col" data-status="Applied">
+            <div class="col_header">
+                <h3><i class="fa-solid fa-paper-plane"></i> Applied <span>{{ applied|length }}</span></h3>
+            </div>
+            <div class="cards_container">
+                {% for job in applied %}
+                    {% include "partials/application_card.html" %}
+                {% empty %}
+                    <p class="empty_col">No applications</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Interview -->
+        <div class="status_col" data-status="Interview">
+            <div class="col_header">
+                <h3><i class="fa-regular fa-clock"></i> Interview <span>{{ interview|length }}</span></h3>
+            </div>
+            <div class="cards_container">
+                {% for job in interview %}
+                    {% include "partials/application_card.html" %}
+                {% empty %}
+                    <p class="empty_col">No Interviews</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Offers -->
+        <div class="status_col" data-status="Offer">
+            <div class="col_header">
+                <h3><i class="fa-regular fa-circle-check"></i> Offer <span>{{ offer|length }}</span></h3>
+            </div>
+            <div class="cards_container">
+                {% for job in offer %}
+                    {% include "partials/application_card.html" %}
+                {% empty %}
+                    <p class="empty_col">No Offers</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Accepted -->
+        <div class="status_col" data-status="Accepted">
+            <div class="col_header">
+                <h3><i class="fa-solid fa-briefcase"></i> Accepted <span>{{ accepted|length }}</span></h3>
+            </div>
+            <div class="cards_container">
+                {% for job in accepted %}
+                    {% include "partials/application_card.html" %}
+                {% empty %}
+                    <p class="empty_col">No accepted</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Rejected -->
+        <div class="status_col" data-status="Rejected">
+            <div class="col_header">
+                <h3><i class="fa-regular fa-circle-xmark"></i> Rejected <span>{{ rejected|length }}</span></h3>
+            </div>
+            <div class="cards_container">
+                {% for job in rejected %}
+                    {% include "partials/application_card.html" %}
+                {% empty %}
+                    <p class="empty_col">No Rejections</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="app_detail_overlay" id="appDetailOverlay">
+        <div class="app_detail_modal" id="appDetailModal">
+            <button class="close_btn" id="closeAppDetail">&times;</button>
+            <div id="appDetailContent">
+                {% include "partials/application_detail.html" %}
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div id="messages">
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+</div>
