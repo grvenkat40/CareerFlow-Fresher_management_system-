@@ -64,9 +64,8 @@ function initDashboardChart() {
 
         // ✅ UPDATE EXISTING CHART
         if (pipelineChart) {
-            pipelineChart.data.datasets[0].data = values;
-            pipelineChart.update();
-            return;
+            pipelineChart.destroy();
+            pipelineChart = null;
         }
 
         // 🆕 CREATE CHART ONCE
@@ -440,7 +439,7 @@ function load_content(url) {
         contentArea.innerHTML = html;
         window.history.pushState({}, "", url);
 
-        initDashboardChart();
+        // initDashboardChart();
         initSkillForm();
         initSkillModal();
         initSkillDelete();
@@ -451,6 +450,12 @@ function load_content(url) {
         initApplicationFlow();
         initApplicationDetails();
         initRecentApplications();
+
+         if (url.includes("/dashboard")) {
+            setTimeout(() => {
+                initDashboardChart(); // wait for canvas to exist
+            }, 100);
+        }
 
     })
     .catch(err => console.error("Skill Vault fetch failed:", err));
