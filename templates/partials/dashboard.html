@@ -1,42 +1,47 @@
 {% load static %}
-    <div class="dash_heading">
-        <h1>Dashboard</h1>
-        <p>Welcome back, <span style="color: rgb(122, 1, 235);font-size: larger;">{{ user.first_name }}!</span> Here's an overview of your career progress.</p>
+<div class="dash_heading">
+    <h1>Dashboard</h1>
+    <p>Welcome back, <span style="color: rgb(122, 1, 235); font-size: larger;">{{ user.first_name }}!</span> Here's an overview of your career progress.</p>
+</div>
+
+<div class="trackers">
+    <div class="tracker_card">
+        <h3><img src="{% static 'images/paper-plane.png' %}" alt="" id="card_img"> Total Applications </h3><br>
+        <h2 id="totalJobs">0</h2><br>
+        <p>total applications</p>
     </div>
-    <div class="trackers">
-        <div class="tracker_card">
-            <h3><img src="{% static 'images/paper-plane.png' %}" alt="" id="card_img"> Total Applications </h3><br>
-            <h2 id="totalJobs">0</h2><br>
-            <p>total applications</p>
-        </div>
-        <div class="tracker_card">
-            <h3><img src="{% static 'images/clock.png' %}" alt="" id="card_img"> Applied</h3><br>
-            <h2 id="appliedJobs">0</h2><br>
-            <p>active process</p>
-        </div>
-        <div class="tracker_card">
-            <h3><img src="{% static 'images/checkmark.png' %}" alt="" id="card_img"> Interviews</h3><br>
-            <h2 id="jobInterviews">0</h2><br>
-            <p>waiting for decision</p>
-        </div>
-        <div class="tracker_card">
-            <h3><img src="{% static 'images/briefcase.png' %}" alt="" id="card_img"> Offers</h3><br>
-            <h2 id="jobOffers">0</h2><br>
-            <p>potential opportunities</p>
-        </div>
+    <div class="tracker_card">
+        <h3><img src="{% static 'images/clock.png' %}" alt="" id="card_img"> Applied</h3><br>
+        <h2 id="appliedJobs">0</h2><br>
+        <p>active process</p>
     </div>
-    <div class="btm_dashboard_boxs">
-        <div class="dashboard_status_container">
-            <div class="cards chart-card">
-                <h3>Application status</h3>
-                <canvas id="pipelineChart"></canvas>
-            </div>
-        </div>
-        <div class="recent_activity_card">
-            <h3>Recent Activity</h3>
-                <div id="recentActivityList">
-                    {% include "partials/recent_applications.html" %}
-                </div>
-            <a href="{% url 'applicaton_tracker_page' user.slug %}" class="view_all_btn">View all activity</a>
+    <div class="tracker_card">
+        <h3><img src="{% static 'images/checkmark.png' %}" alt="" id="card_img"> Interviews</h3><br>
+        <h2 id="jobInterviews">0</h2><br>
+        <p>waiting for decision</p>
+    </div>
+    <div class="tracker_card">
+        <h3><img src="{% static 'images/briefcase.png' %}" alt="" id="card_img"> Offers</h3><br>
+        <h2 id="jobOffers">0</h2><br>
+        <p>potential opportunities</p>
+    </div>
+</div>
+
+<div class="btm_dashboard_boxs">
+    <div class="chart_container_wrapper cards">
+        <h3>Application status</h3>
+        <div style="position: relative; height: 350px; width: 100%;">
+            <canvas id="pipelineChart"></canvas>
         </div>
     </div>
+
+    <div class="recent_activity_card">
+        <h3>Recent Activity</h3>
+        <div id="recentActivityList">
+            {% include "partials/recent_applications.html" %}
+        </div>
+        <a href="#" class="nav_item view_all_btn" data-url="{% url 'applicaton_tracker_page' user.slug %}" style="display: block; text-align: center; margin-top: auto;">
+            View all activity
+        </a>
+    </div>
+</div>

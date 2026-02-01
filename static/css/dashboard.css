@@ -205,33 +205,39 @@ html{
     height: 20px;
     align-items: center;
 }
-.btm_dashboard_boxs{
+/* =================================== */
+/* DASHBOARD CHART FIX */
+/* =================================== */
+
+.btm_dashboard_boxs {
     display: flex;
-    flex: 1,1;
+    gap: 25px;
     margin-top: 30px;
-    justify-content: space-between;
+    align-items: flex-start;
 }
-#pipelineChart{
-    width: 560px;
-}
-.cards {
+
+.chart_container_wrapper {
+    flex: 2; /* Takes up more space */
     background: white;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    position: relative;
+    min-height: 400px; 
 }
-/* chart-card { flex: 2; }  */
-/* .recent_activity_card { flex: 1; } */
+
+#pipelineChart {
+    width: 100% !important; 
+    height: 100% !important;
+    max-height: 400px;
+}
 
 .recent_activity_card {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    padding: 15px 15px;
-    margin-left: 20px;
+    padding: 20px;
     border-radius: 17px;
-    width: 100%;
-    border-bottom: 1px solid #eee;
     background-color: #ffffff;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
