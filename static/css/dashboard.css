@@ -213,23 +213,28 @@ html{
     display: flex;
     gap: 25px;
     margin-top: 30px;
-    align-items: flex-start;
+    align-items: stretch; /* 🔥 IMPORTANT */
 }
 
+/* Chart card */
 .chart_container_wrapper {
-    flex: 2; /* Takes up more space */
+    flex: 2;
     background: white;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    position: relative;
-    min-height: 400px; 
 }
 
+/* Chart height controller */
+.chart_container_wrapper > div {
+    position: relative;
+    height: 350px; /* ✅ FIXED HEIGHT */
+}
+
+/* Canvas must NOT force height */
 #pipelineChart {
-    width: 100% !important; 
-    height: 100% !important;
-    max-height: 400px;
+    width: 100% !important;
+    height: auto !important; /* 🔥 KEY FIX */
 }
 
 .recent_activity_card {
@@ -1384,4 +1389,152 @@ textarea:focus {
     .actions {
         flex-direction: column;
     }
+}
+
+
+
+
+
+
+
+/* ================================ */
+/* RESPONSIVE DESIGN */
+/* ================================ */
+
+@media (max-width: 1024px) {
+
+  .sidebar {
+    width: 220px;
+  }
+
+  .content_area {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 30px;
+  }
+
+  .trackers {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tracker_card {
+    width: 45%;
+  }
+
+  .btm_dashboard_boxs {
+    flex-direction: column;
+  }
+
+  .chart_container_wrapper > div {
+    height: 300px;
+  }
+
+}
+@media (max-width: 768px) {
+
+  /* Sidebar collapses */
+  .sidebar {
+    position: fixed;
+    width: 70px;
+    padding: 15px 10px;
+  }
+
+  .CareerFlow_logo span,
+  .sidebar h3,
+  .nav_item {
+    display: none;
+  }
+
+  .nav_item::before {
+    display: none;
+  }
+
+  .content_area {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    padding: 20px;
+  }
+
+  /* Dashboard */
+  .dash_heading h1 {
+    font-size: 1.6rem;
+  }
+
+  .dash_heading p {
+    font-size: 14px;
+  }
+
+  .trackers {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tracker_card {
+    width: 100%;
+  }
+
+  .btm_dashboard_boxs {
+    flex-direction: column;
+  }
+
+  .chart_container_wrapper > div {
+    height: 260px;
+  }
+
+  /* Job cards */
+  .job_application_box {
+    grid-template-columns: 1fr;
+  }
+
+  .job_card {
+    width: 100%;
+  }
+
+  /* Skill cards */
+  #skillsBox {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-card {
+    width: 100%;
+  }
+
+  /* Modals */
+  .job_model,
+  #model {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+
+}
+@media (max-width: 480px) {
+
+  .content_area {
+    padding: 15px;
+  }
+
+  .tracker_card {
+    padding: 20px;
+    height: auto;
+  }
+
+  .empty_state img {
+    width: 250px;
+    height: 250px;
+  }
+
+  .empty_state h2 {
+    font-size: 22px;
+  }
+
+  .empty_state p {
+    font-size: 14px;
+  }
+
+  .create_application_btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
 }

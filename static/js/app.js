@@ -1,3 +1,7 @@
+/* ------------------------------
+   CAREERFLOW APP.JS - FIXED
+--------------------------------*/
+
 function getCSRFToken() {
     const meta = document.querySelector("meta[name='csrf-token']");
     const middleware = document.querySelector("[name=csrfmiddlewaretoken]");
@@ -38,66 +42,83 @@ function initFlashMessages() {
     }
 }
 
+
 /* ------------------------------
-   2. DASHBOARD CHART (FIXED)
+   2. DASHBOARD CHART (SAFE)
 --------------------------------*/
 const ChartManager = (() => {
     let pipelineChart = null;
 
-    function renderPipelineChart() {
+    function destroy() {
+        if (pipelineChart) {
+            pipelineChart.destroy();
+            pipelineChart = null;
+        }
+    }
+
+    function render() {
+        destroy();
+
         const canvas = document.getElementById("pipelineChart");
         if (!canvas) return;
 
-        // Ensure we have a fresh start for the canvas
-        const ctx = canvas.getContext("2d");
+        // wait for layout
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
 
-        fetch("/dashboard/charts/", {
-            headers: { "X-Requested-With": "XMLHttpRequest" }
-        })
-        .then(res => res.json())
-        .then(data => {
-            const values = [
-                data.saved, data.applied, data.interview, 
-                data.offer, data.accepted, data.rejected
-            ];
+                fetch("/dashboard/charts/", {
+                    headers: { "X-Requested-With": "XMLHttpRequest" }
+                })
+                .then(res => res.json())
+                .then(data => {
 
-            // Destroy existing instance to prevent "black chart" or hover glitches
-            if (pipelineChart) {
-                pipelineChart.destroy();
-                pipelineChart = null;
-            }
+                    if (!document.body.contains(canvas)) return;
 
-            // Clear context physically
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    pipelineChart = new Chart(canvas.getContext("2d"), {
+                        type: "bar",
+                        data: {
+                            labels: ["Saved", "Applied", "Interview", "Offer", "Accepted", "Rejected"],
+                            datasets: [{
+                                data: [
+                                    data.saved,
+                                    data.applied,
+                                    data.interview,
+                                    data.offer,
+                                    data.accepted,
+                                    data.rejected
+                                ],
+                                backgroundColor: [
+                                    "#94a3b8",
+                                    "#3b82f6",
+                                    "#facc15",
+                                    "#22c55e",
+                                    "#16a34a",
+                                    "#ef4444"
+                                ],
+                                borderRadius: 6,
+                                barThickness: 30
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { beginAtZero: true },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    });
+                });
 
-            pipelineChart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: ["Saved", "Applied", "Interview", "Offer", "Accepted", "Rejected"],
-                    datasets: [{
-                        data: values,
-                        backgroundColor: ["#94a3b8", "#3b82f6", "#facc15", "#22c55e", "#16a34a", "#ef4444"],
-                        borderRadius: 6,
-                        barThickness: 30
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true },
-                        x: { grid: { display: false } }
-                    }
-                }
             });
-        })
-        .catch(err => console.error("Chart Fetch Error:", err));
+        });
     }
 
     return {
-        render: renderPipelineChart,
-        rerender: renderPipelineChart
+        render,
+        rerender: render,
+        destroy
     };
 })();
 
@@ -106,7 +127,7 @@ const ChartManager = (() => {
 --------------------------------*/
 function updateDashboardCntCards() {
     const totalJobs = document.getElementById("totalJobs");
-    if (!totalJobs) return; // Only fetch if we are actually on the dashboard
+    if (!totalJobs) return; 
 
     fetch("/dashboard_card/counts/", {
         headers: { "X-Requested-With": "XMLHttpRequest" }
@@ -205,7 +226,6 @@ function initSkillDelete() {
 --------------------------------*/
 function initJobApplicationForm() {
     const jobForm = document.getElementById("jobForm");
-    const jobModal = document.getElementById("add_job_plate");
     const jobContainer = document.getElementById("job_application_box");
 
     if (!jobForm || !jobContainer) return;
@@ -223,7 +243,7 @@ function initJobApplicationForm() {
         .then(res => res.json())
         .then(data => {
             if (data.error) return alert(data.error);
-            location.reload(); // Simplest way to refresh the grid
+            location.reload(); 
         });
     };
 }
@@ -261,7 +281,7 @@ function initJobActions() {
 }
 
 /* ------------------------------
-   5. AJAX PAGE LOADER (FIXED)
+   5. AJAX PAGE LOADER (CRITICAL FIX)
 --------------------------------*/
 function load_content(url) {
     const contentArea = document.querySelector(".content_area");
@@ -276,30 +296,34 @@ function load_content(url) {
         return res.text();
     })
     .then(html => {
+        // Destroy old chart BEFORE DOM replacement
+        ChartManager.destroy();
+
         contentArea.innerHTML = html;
         window.history.pushState({}, "", url);
 
-        // Crucial: Wait for the browser to render the HTML before firing scripts
         requestAnimationFrame(() => {
-            if (url.includes("dashboard") || url === "/" || url === "") {
-                ChartManager.render();
-                updateDashboardCntCards();
-                initRecentApplications();
-            }
-            
-            // Re-bind all listeners for the new HTML
-            initSkillForm();
-            initSkillModal();
-            initSkillDelete();
-            initJobModel();
-            initJobApplicationForm();
-            initJobActions();
-            initApplicationFlow();
-            initApplicationDetails();
+            setTimeout(() => {
+                if (url.includes("dashboard") || url === "/" || url === "") {
+                    ChartManager.render();
+                    updateDashboardCntCards();
+                    initRecentApplications();
+                }
+
+                initSkillForm();
+                initSkillModal();
+                initSkillDelete();
+                initJobModel();
+                initJobApplicationForm();
+                initJobActions();
+                initApplicationFlow();
+                initApplicationDetails();
+            }, 0);
         });
     })
     .catch(err => console.error("Fetch failed:", err));
 }
+
 
 /* ------------------------------
    6. MODAL UTILS
@@ -371,7 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
         load_content(dashLink.dataset.url);
     }
 
-    // Global Nav Click Handler
     document.addEventListener("click", e => {
         const navItem = e.target.closest(".nav_item");
         if (!navItem || !navItem.dataset.url) return;
